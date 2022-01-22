@@ -18,15 +18,18 @@ class Parking_Garage():
             print("Sorry, there are currently no spaces available.  Please try again later.")  
 
     def pay_for_parking(self):
-        self.ticket = int(input("What is your ticket number?" ))  # set current ticket to be paid
+        self.ticket = input("What is your ticket number?" )  # set current ticket to be paid
 
-        if  self.ticket not in self.current_ticket:
+        if not self.ticket.isnumeric():
+            print("Please input numeric values only.")
+
+        elif  int(self.ticket) not in self.current_ticket:
             print("ERROR -- That ticket is not in circulation. Please enter a valid ticket number")
 
-        elif self.current_ticket[self.ticket]:
-            print(f"Ticket number {self.ticket} has alredy been paid. Please proceed to the exit gate.")
+        elif self.current_ticket[int(self.ticket)]:
+            print(f"Ticket number {int(self.ticket)} has alredy been paid. Please proceed to the exit gate.")
 
-        elif self.ticket in self.current_ticket.keys():  
+        elif int(self.ticket) in self.current_ticket.keys():  
             payment = input("Please pay ticket. The amount due is $10: ")
 
             if payment.isnumeric():
@@ -34,38 +37,35 @@ class Parking_Garage():
                 if int(payment) == 10:
                     print("Thank you for your payment!") 
                     print("Please be advised you have 15 minutes to leave before your vehicle is impounded by TSA security personnel.")
-                    self.current_ticket[self.ticket] = True
+                    self.current_ticket[int(self.ticket)] = True
                 else:
                     print("Incorrect. Please pay the correct amount due.")
 
             elif not payment.isnumeric():
                 print("Incorrect. Please enter a numeric value.")
 
-        # else:
-        #     print("ERROR -- That ticket is not in circulation. Please enter a valid ticket number")
-
-
     def leave_parking_garage(self):
-        ticket_paid = int(input("What was the ticket you paid for? "))
-        # print(f"The ticket entered was: {self.ticket}")                      # developer check line
-        # print(f"Tickets currently not in use: {self.tickets_available}")     # developer check line
-            
-        if  ticket_paid not in self.current_ticket:
+        ticket_paid = input("What was the ticket you paid for? ")
+
+        if not ticket_paid.isnumeric():
+            print("Please enter a numeric value only.")
+
+        elif  int(ticket_paid) not in self.current_ticket:
             print("Incorrect, that ticket number is currently not in use. Please try again: ")
         
-        elif self.current_ticket[ticket_paid]:
+        elif self.current_ticket[int(ticket_paid)]:
             print("Thank you for parking with us, have a nice day!")
             self.tickets_available.append(self.ticket)       # increment tickets available by 1
             self.parking_space_available.append(self.space)  # increment parking spaces available by 1
-            del self.current_ticket[self.ticket]             # remove ticket (key, value) from ticket dict
+            del self.current_ticket[int(ticket_paid)]             # remove ticket (key, value) from ticket dict
 
-        elif self.current_ticket[ticket_paid] == False:
+        elif self.current_ticket[int(ticket_paid)] == False:
             print("The ticket number entered has not been paid.")
             print("Please verify that you are entering the correct ticket number ")
             print("or return to the payment kiosk if you have not yet paid.")
 
-        else:
-            print("Incorrect ticket number, please try again: ")
+        # else:
+        #     print("Incorrect ticket number, please try again: ")
 
 class Main():
 
